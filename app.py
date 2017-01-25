@@ -51,11 +51,11 @@ def webhook():
 		status =soup.find(text='Alive')
 
 		if status == None:
-			print(character + " is dead")
-			res = ["False"]
+			print(character + " is dead")	
+			res = False
 		else:
 			print(character + " is alive")
-			alive = ["True"]
+			alive = True
 			
 	#deathEpsiode = soup.find('div'
 	
