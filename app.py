@@ -58,8 +58,11 @@ def webhook():
 			alive = ["True"]
 			
 	#deathEpsiode = soup.find('div'
+	
+	r = make_response(res)
+	print(r)
 			
-	return res
+	return r
 
 			
 if __name__ == "__main__":
