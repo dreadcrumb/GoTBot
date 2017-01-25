@@ -1,7 +1,5 @@
-import requests
+import json
 from bs4 import BeautifulSoup
-from urllib.request import urlopen
-
 from flask import Flask
 from flask import request
 from flask import make_response
