@@ -1,15 +1,13 @@
-
-import json
-import os
-
-from distance_script import *
+import requests
+from bs4 import BeautifulSoup
+from urllib.request import urlopen
 
 from flask import Flask
 from flask import request
 from flask import make_response
 
 app = Flask(__name__)
-#Trying stuff
+
 @app.route("/")
 def hello():
     return "Hello World!"
@@ -21,27 +19,36 @@ def hello_name(name):
 #Actual app
 @app.route("/webhook", methods=['POST'])
 def webhook():
-    req = request.get_json(silent=True, force=True)
+	character = "Jon Snow"
+	
+	character = character.title()
+	if " " in character:
+		character = character.replace(" ", "_")
+	print(character)
 
-    print("Request:")
-    print(json.dumps(req, indent=4))
-    parameters = req.get("result").get("parameters")
+	content = urlopen('http://gameofthrones.wikia.com/wiki/' + character).read()
+	soup = BeautifulSoup(content, "html.parser")
 
-    start = parameters["start"]
-    end = parameters["end"]
-    vehicle = parameters.get("vehicle", None)
+	isPage = soup.find('aside', attrs={"class":"portable-infobox"})
 
+	isNoArticle = soup.find('div', attrs={"class":"noarticletext"})
 
-    res = get_distance(start,end,vehicle)
+	if isNoArticle != None:
+		newLink = soup.find('a', attrs={"href"})
+		print(newLink)
 
-    r = make_response(res)
+	if isPage == None:
+		print("Name is unclear, try again")
+	else:
+		status =soup.find(text='Alive')
 
-    r.headers['Content-Type'] = 'application/json'
-    return r
+		if status == None:
+			print(character + " is dead")
+		else:
+			print(character + " is alive")
+			
+	return
 
+			
 if __name__ == "__main__":
     app.run()
-
-
-
-
