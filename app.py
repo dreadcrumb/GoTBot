@@ -24,8 +24,6 @@ def webhook():
 	parameters = req.get("result").get("parameters")
 	
 	character = parameters["character"]
-
-	character = "Jon Snow"
 	
 	character = character.title()
 	if " " in character:
@@ -48,12 +46,10 @@ def webhook():
 		status =soup.find(text='Alive')
 		if status == None:
 			print(character + " is dead")	
-			res = False
+			res = "The character is dead"
 		else:
 			print(character + " is alive")
-			res = True
-		
-
+			res = "This character is alive"
 
 	r = make_response(res)
 	print(r)
