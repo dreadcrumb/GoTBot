@@ -19,7 +19,15 @@ def hello_name(name):
 #Actual app
 @app.route("/webhook", methods=['POST'])
 def webhook():
-	character = "Jon Snow"
+	
+	
+	req = request.get_json(silent=True, force=True)
+	print("Request:")
+    print(json.dumps(req, indent=4))
+	
+	parameters = req.get("result").get("parameters")
+	
+	character = parameters["character"]
 	
 	character = character.title()
 	if " " in character:
@@ -44,10 +52,14 @@ def webhook():
 
 		if status == None:
 			print(character + " is dead")
+			res = ["False"]
 		else:
 			print(character + " is alive")
+			alive = ["True"]
 			
-	return
+	#deathEpsiode = soup.find('div'
+			
+	return res
 
 			
 if __name__ == "__main__":
