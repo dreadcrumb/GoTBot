@@ -53,6 +53,7 @@ def webhook():
 
 	r = make_response(res)
 	print(r)
+	r.headers['Content-Type'] = 'application/json'
 	return r
 			
 if __name__ == "__main__":
